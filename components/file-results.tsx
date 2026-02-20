@@ -35,6 +35,8 @@ const equivalentExtensions: string[][] = [
   ["tif", "tiff"],
   ["htm", "html"],
   ["mpg", "mpeg"],
+  // Windows PE format covers exe, dll, sys, ocx, scr — all detected as exe
+  ["exe", "dll", "sys", "ocx", "scr"],
 ]
 
 function areExtensionsEquivalent(a: string, b: string): boolean {
@@ -119,18 +121,13 @@ function FileResultRow({ result }: { result: FileResult }) {
         )}
 
         {result.status === "done" && result.detectedMime && (
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2">
             <Badge variant="secondary" className="font-mono text-xs">
               {result.detectedMime}
             </Badge>
             <Badge variant="outline" className="font-mono text-xs">
               .{result.detectedExt}
             </Badge>
-            {mismatch && (
-              <span className="text-xs text-chart-1">
-                Extension mismatch (expected .{nameExt})
-              </span>
-            )}
           </div>
         )}
 
