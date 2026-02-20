@@ -29,6 +29,21 @@ function getExtensionFromName(name: string): string | null {
   return null
 }
 
+/** Groups of extensions that are equivalent for the same MIME type. */
+const equivalentExtensions: string[][] = [
+  ["jpg", "jpeg"],
+  ["tif", "tiff"],
+  ["htm", "html"],
+  ["mpg", "mpeg"],
+]
+
+function areExtensionsEquivalent(a: string, b: string): boolean {
+  if (a === b) return true
+  return equivalentExtensions.some(
+    (group) => group.includes(a) && group.includes(b)
+  )
+}
+
 interface FileResultsProps {
   results: FileResult[]
   onClear: () => void
@@ -68,7 +83,7 @@ function FileResultRow({ result }: { result: FileResult }) {
     result.status === "done" &&
     result.detectedExt &&
     nameExt &&
-    nameExt !== result.detectedExt
+    !areExtensionsEquivalent(nameExt, result.detectedExt)
 
   return (
     <div
