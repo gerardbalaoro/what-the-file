@@ -1,16 +1,82 @@
+"use client"
+
+import { useCallback, useState } from "react"
+import { fileTypeFromBlob } from "file-type"
+import { FileDropZone } from "@/components/file-drop-zone"
+import { FileResults, type FileResult } from "@/components/file-results"
+
 export default function Home() {
+  const [results, setResults] = useState<FileResult[]>([])
+
+  const handleFilesSelected = useCallback(async (files: File[]) => {
+    const newResults: FileResult[] = files.map((file) => ({
+      id: `${file.name}-${file.size}-${Date.now()}-${Math.random()}`,
+      name: file.name,
+      size: file.size,
+      status: "pending" as const,
+    }))
+
+    setResults((prev) => [...newResults, ...prev])
+
+    for (const file of files) {
+      const resultId = newResults.find((r) => r.name === file.name && r.size === file.size)?.id
+      if (!resultId) continue
+
+      setResults((prev) =>
+        prev.map((r) => (r.id === resultId ? { ...r, status: "detecting" } : r))
+      )
+
+      try {
+        const type = await fileTypeFromBlob(file)
+
+        setResults((prev) =>
+          prev.map((r) =>
+            r.id === resultId
+              ? {
+                  ...r,
+                  status: "done",
+                  detectedExt: type?.ext,
+                  detectedMime: type?.mime,
+                }
+              : r
+          )
+        )
+      } catch (err) {
+        setResults((prev) =>
+          prev.map((r) =>
+            r.id === resultId
+              ? {
+                  ...r,
+                  status: "error",
+                  error: err instanceof Error ? err.message : "Unknown error",
+                }
+              : r
+          )
+        )
+      }
+    }
+  }, [])
+
+  const handleClear = useCallback(() => {
+    setResults([])
+  }, [])
+
   return (
-    <div className="flex min-h-screen items-center justify-center font-sans">
-      <main className="flex w-full max-w-3xl flex-col items-center gap-8 px-6 py-16 text-center sm:items-start sm:text-left">
-        <div className="flex flex-col gap-4">
-          <h1 className="text-4xl font-bold tracking-tight">
+    <div className="flex min-h-screen flex-col items-center px-4 py-16 font-sans">
+      <main className="flex w-full max-w-xl flex-col gap-8">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground font-mono">
             what-the-file
           </h1>
-          <p className="max-w-md text-lg text-muted-foreground">
-            To get started, send a prompt or modify this page directly.
+          <p className="text-sm text-muted-foreground">
+            Detect the true file type by reading magic bytes — entirely
+            client-side, nothing is uploaded.
           </p>
         </div>
+
+        <FileDropZone onFilesSelected={handleFilesSelected} />
+        <FileResults results={results} onClear={handleClear} />
       </main>
     </div>
-  );
+  )
 }
