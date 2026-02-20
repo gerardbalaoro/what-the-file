@@ -13,14 +13,13 @@ export const metadata: Metadata = {
   description: 'Detect the true file type of any file by reading binary magic bytes. Runs entirely in your browser -- nothing is uploaded.',
   generator: 'v0.app',
   keywords: ['file type', 'mime type', 'magic bytes', 'file detection', 'binary signature'],
-  manifest: '/manifest.json',
   icons: {
     icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/manifest-icon-192.maskable.png', sizes: '192x192', type: 'image/png' },
+      { url: '/manifest-icon-512.maskable.png', sizes: '512x512', type: 'image/png' },
     ],
-    apple: '/icon-192.png',
+    apple: '/apple-icon-180.png',
   },
   appleWebApp: {
     capable: true,

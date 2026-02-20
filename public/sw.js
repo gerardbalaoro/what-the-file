@@ -1,6 +1,6 @@
 const CACHE_NAME = "wtf-v1";
 
-const PRECACHE_URLS = ["/", "/icon.svg"];
+const PRECACHE_URLS = ["/", "/favicon.svg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
