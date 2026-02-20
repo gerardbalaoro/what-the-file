@@ -8,7 +8,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'what-the-file',
+  title: 'what the file',
   description: 'Detect the true file type of any file by reading binary magic bytes. Runs entirely in your browser -- nothing is uploaded.',
   generator: 'v0.app',
   keywords: ['file type', 'mime type', 'magic bytes', 'file detection', 'binary signature'],

@@ -65,8 +65,8 @@ export default function Home() {
     <div className="flex min-h-screen flex-col items-center px-4 py-16 font-sans">
       <main className="flex w-full max-w-xl flex-col gap-8">
         <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-bold tracking-tight text-foreground font-mono">
-            what-the-file
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            what the <span className="bg-foreground text-background px-1.5 py-0.5 rounded-sm">file</span>
           </h1>
           <p className="text-sm text-muted-foreground">
             Detect the true file type by reading magic bytes — entirely
