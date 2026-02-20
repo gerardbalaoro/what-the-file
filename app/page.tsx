@@ -62,7 +62,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-4 py-16 font-sans">
+    <div className="flex min-h-screen flex-col items-center px-4 py-16">
       <main className="flex w-full max-w-xl flex-col gap-8">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-bold tracking-tight text-foreground">
