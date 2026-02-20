@@ -1,7 +1,6 @@
 "use client"
 
 import { useCallback, useState } from "react"
-import { fileTypeFromBlob } from "file-type"
 import { FileDropZone } from "@/components/file-drop-zone"
 import { FileResults, type FileResult } from "@/components/file-results"
 
@@ -27,6 +26,7 @@ export default function Home() {
       )
 
       try {
+        const { fileTypeFromBlob } = await import("file-type")
         const type = await fileTypeFromBlob(file)
 
         setResults((prev) =>
