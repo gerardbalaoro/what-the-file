@@ -1,6 +1,6 @@
 "use client"
 
-import { FileCheck, FileQuestion, Loader2, X } from "lucide-react"
+import { FileCheck, FileQuestion, FileWarning, Loader2, X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -96,6 +96,8 @@ function FileResultRow({ result }: { result: FileResult }) {
       <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted">
         {result.status === "detecting" ? (
           <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+        ) : result.status === "done" && result.detectedMime && mismatch ? (
+          <FileWarning className="h-4 w-4 text-chart-1" />
         ) : result.status === "done" && result.detectedMime ? (
           <FileCheck className="h-4 w-4 text-foreground" />
         ) : (

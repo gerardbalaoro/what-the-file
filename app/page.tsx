@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react"
 import { FileDropZone } from "@/components/file-drop-zone"
 import { FileResults, type FileResult } from "@/components/file-results"
+import { detect } from "@/lib/detect"
 
 export default function Home() {
   const [results, setResults] = useState<FileResult[]>([])
@@ -26,13 +27,7 @@ export default function Home() {
       )
 
       try {
-        const { FileTypeParser } = await import("file-type")
-        const { detectXml } = await import("@file-type/xml")
-        const { detectAv } = await import("@file-type/av")
-        const { detectCfbf } = await import("@file-type/cfbf")
-        const { detectPdf } = await import("@file-type/pdf")
-        const parser = new FileTypeParser({ customDetectors: [detectXml, detectAv, detectCfbf, detectPdf] })
-        const type = await parser.fromBlob(file)
+        const { mime, extension } = await detect(file)
 
         setResults((prev) =>
           prev.map((r) =>
@@ -40,8 +35,8 @@ export default function Home() {
               ? {
                   ...r,
                   status: "done",
-                  detectedExt: type?.ext,
-                  detectedMime: type?.mime,
+                  detectedExt: extension,
+                  detectedMime: mime,
                 }
               : r
           )
