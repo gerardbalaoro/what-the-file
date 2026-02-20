@@ -26,8 +26,13 @@ export default function Home() {
       )
 
       try {
-        const { fileTypeFromBlob } = await import("file-type")
-        const type = await fileTypeFromBlob(file)
+        const { FileTypeParser } = await import("file-type")
+        const { detectXml } = await import("@file-type/xml")
+        const { detectAv } = await import("@file-type/av")
+        const { detectCfbf } = await import("@file-type/cfbf")
+        const { detectPdf } = await import("@file-type/pdf")
+        const parser = new FileTypeParser({ customDetectors: [detectXml, detectAv, detectCfbf, detectPdf] })
+        const type = await parser.fromBlob(file)
 
         setResults((prev) =>
           prev.map((r) =>
